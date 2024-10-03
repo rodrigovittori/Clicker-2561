@@ -1,8 +1,8 @@
 #pgzero
 
 """
-M6.L3: Tarea #1 - "Volver al menú"
-Objetivo: Agregar un Actor que al hacerle click nos permita volver al menú principal
+M6.L3: Tarea #2 - "Dos nuevos botones"
+Objetivo: Agregar botones (en el menú principal) para los modos "tienda" y "coleccion"
 
 PACK DE ASSETS: 
 ANIMALES: https://kenney.nl/assets/animal-pack-redux 
@@ -10,12 +10,10 @@ BOTONES:  https://kenney.nl/assets/ui-pack
 
 Para la compra:
 
-Paso Nº 1: Crear nuevo Actor
-Paso Nº 2: Modificar nuestro draw() para que lo muestre
-Paso Nº 3: Implementar lógica del click
+Paso Nº 1: Crear nuevos Actores (boton_tienda y boton_coleccion)
+Paso Nº 2: Modificar nuestro draw() para que los muestre
 
-
-Nota: Eliminar cheat de salir al menú
+NOTA: La lógica del click la implementaremos la clase que viene :)
 
 """
 
@@ -51,10 +49,11 @@ bonus_3.precio = 600
 bonus_3.potenciador = 50
 bonus_3.ya_activado = False
 
-#Botones menú
-boton_jugar = Actor("play", (300, 100))
-
-boton_salir = Actor("cross", (WIDTH - 20, 20))
+# Botones menú
+boton_jugar =     Actor("play", (300, 100))
+boton_tienda =    Actor("tienda", (300, 200))
+boton_coleccion = Actor("coleccion", (300, 300))
+boton_salir =     Actor("cross", (WIDTH - 20, 20))
 
 """ #####################
    # FUNCIONES PROPIAS #
@@ -81,6 +80,8 @@ def draw():
     if (modo_actual == "menu"):
         fondo.draw()
         boton_jugar.draw()
+        boton_tienda.draw()
+        boton_coleccion.draw()
 
     elif (modo_actual == "juego"):
         fondo.draw()
