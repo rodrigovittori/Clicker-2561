@@ -1,17 +1,14 @@
 #pgzero
 
 """
-M6.L4: Actividad # 2 - "Compra de skins"
-Objetivo: Poder comprar y cambiar las skins del personaje
-
+M6.L4: Actividad # 3 - "Colección"
+Objetivo: Poder cambiar las skins del personaje por las que ya tengamos desbloqueadas
 
 PACK DE ASSETS: 
 ANIMALES: https://kenney.nl/assets/animal-pack-redux 
 BOTONES:  https://kenney.nl/assets/ui-pack
 
-Paso Nº 1: Agregar la lógica de click en tienda y en colección (global click_mult)
-Paso Nº 2: Verificar que el jugador tenga los tokens suficientes ara desbloquear las skins y que no pueda comprar skins ya adquiridas
-Paso Nº 3: Actualizar la skin y su multiplicador tras la compra
+Paso Nº 1: Agregar la lógica de click en los actores en modo coleccion
 
 """
 
@@ -329,10 +326,21 @@ def on_mouse_down(button, pos):
             # Si el click fue sobre el botón "Salir":
             modo_actual = "menu"
 
+        # Agregar animaciones al seleccionar una skin
+        elif (cocodrilo.collidepoint(pos))  and (cocodrilo in coleccion_skins):
+            animal.image = cocodrilo.image
+            click_mult = cocodrilo.mult
+
+        elif (hipopotamo.collidepoint(pos))  and (hipopotamo in coleccion_skins):
+            animal.image = hipopotamo.image
+            click_mult = hipopotamo.mult
+
+        # Agregar morsa
+
 ######################
 
 def on_key_down(key):
-    global puntuacion, modo_actual
+    global puntuacion, modo_actual, click_mult
     
     if keyboard.d:
         puntuacion += 500
