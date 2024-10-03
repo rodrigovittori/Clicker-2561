@@ -1,27 +1,18 @@
 #pgzero
 
 """
-M6.L4: Actividad # 1 - "Tienda"
-Objetivo: Poder ingresar a la tienda y mostrar los nuevos actores y sus precios
-NOTA: NO implementamos lógica de sino a partir de la próxima actividad
-NOTA 2: Hay demasiado código que NO se ve por no tener la lógica de click
+M6.L4: Actividad # 2 - "Compra de skins"
+Objetivo: Poder comprar y cambiar las skins del personaje
 
 
 PACK DE ASSETS: 
 ANIMALES: https://kenney.nl/assets/animal-pack-redux 
 BOTONES:  https://kenney.nl/assets/ui-pack
 
-Paso Nº 1: Agregar los nuevos actores (cocodrilo e hipopotamo)
-Paso Nº 2: Crear listas coleccion_completa[] y coleccion_skins[]
-Paso Nº 3: Agregamos en draw() el modo tienda y colección
-Paso Nº 4: Agregamos lógica de click en los botones del menú ppal y el boton_salir en los nuevos modos
+Paso Nº 1: Agregar la lógica de click en tienda y en colección (global click_mult)
+Paso Nº 2: Verificar que el jugador tenga los tokens suficientes ara desbloquear las skins y que no pueda comprar skins ya adquiridas
+Paso Nº 3: Actualizar la skin y su multiplicador tras la compra
 
-Extra: Ajustamos tamaño puntuación y otros detalles:
-    Paso Nº 1: Creamos variable global tam_fuente_punt
-    Paso Nº 2: Creamos funcion actualizar_tam_fuente_punt()
-    Paso Nº 3: La agregamos a nuestro update()
-
-Extra 2: 'j' para jirafa
 """
 
 WIDTH = 600  # Ancho de la ventana
@@ -189,14 +180,16 @@ def draw():
                screen.draw.text("?", center=(skin.pos), color = "white", fontsize = 96)
             
             # mostramos habilidades/multiplicadores skins
-            screen.draw.text((str(skin.mult) + "x " + token ), center=(cocodrilo.x, 300), color = "white" , fontsize = 36)
+            screen.draw.text((str(skin.mult) + "x " + token ), center=(skin.x, 300), color = "white" , fontsize = 36)
 
         # Dibujamos botón salir:
         boton_salir.draw()
         
 
 def on_mouse_down(button, pos):
-    global puntuacion, modo_actual
+    global puntuacion, modo_actual, click_mult
+
+    actualizar_tam_fuente_punt()
     
     if (button == mouse.LEFT) and (modo_actual == "juego"):
         
@@ -287,9 +280,54 @@ def on_mouse_down(button, pos):
             modo_actual = "menu"
 
     elif (button == mouse.LEFT) and (modo_actual == "menu"):
-        if boton_jugar.collidepoint(pos):
-            # Si el click fue sobre el boton "Jugar":
-            modo_actual = "juego"
+         if boton_jugar.collidepoint(pos):
+             # Si el click fue sobre el boton "Jugar":
+             boton_jugar.y = 105
+             animate(boton_jugar, tween='bounce_end', duration=0.5, y=100)
+             modo_actual = "juego"
+         
+         elif boton_tienda.collidepoint(pos):
+             # Si el click fue sobre el boton "Tienda":
+             boton_tienda.y = 205
+             animate(boton_tienda, tween='bounce_end', duration=0.5, y=200)
+             modo_actual = "tienda"
+         
+         elif boton_coleccion.collidepoint(pos):
+             # Si el click fue sobre el boton "COLECCION":
+             boton_coleccion.y = 305
+             animate(boton_coleccion, tween='bounce_end', duration=0.5, y=300)
+             modo_actual = "coleccion"
+
+    elif (button == mouse.LEFT) and (modo_actual == "tienda"):
+
+        if (boton_salir.collidepoint(pos)):
+            # Si el click fue sobre el botón "Salir":
+            modo_actual = "menu"
+
+        # Nota: modificar por un bucle para todas las skins...
+        # Nota 2: Agregar animación horizontal cuando NO tenga tokens suficientes para comprarlo
+        
+        elif (cocodrilo.collidepoint(pos)) and (puntuacion >= cocodrilo.precio) and (cocodrilo not in coleccion_skins):
+            # Si el click fue sobre el cocodrilo:
+            puntuacion -= cocodrilo.precio
+            coleccion_skins.append(cocodrilo)
+            click_mult = cocodrilo.mult
+            animal.image = cocodrilo.image
+          
+        elif hipopotamo.collidepoint(pos) and (puntuacion >= hipopotamo.precio) and (hipopotamo not in coleccion_skins):
+            puntuacion -= hipopotamo.precio
+            coleccion_skins.append(hipopotamo)
+            click_mult = hipopotamo.mult
+            animal.image = hipopotamo.image
+
+        # Nota 3: Agregar Morsa
+
+    elif (button == mouse.LEFT) and (modo_actual == "coleccion"):
+    
+        """ Nota: en esta actividad todavia no configuramos la coleccion... """
+        if (boton_salir.collidepoint(pos)):
+            # Si el click fue sobre el botón "Salir":
+            modo_actual = "menu"
 
 ######################
 
