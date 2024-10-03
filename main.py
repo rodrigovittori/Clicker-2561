@@ -1,8 +1,8 @@
 #pgzero
 
 """
-M6.L3: Actividad #8 (Extra) - "Animación de botones"
-Objetivo: Agregar animaciones a los botones de bonificaciones
+M6.L3: Actividad #9 (Extra) - "Incremento de precios"
+Objetivo: Agregar condiciones para que el costo de las bonificaciones aumente
 
 PACK DE ASSETS: 
 ANIMALES: https://kenney.nl/assets/animal-pack-redux 
@@ -10,13 +10,7 @@ BOTONES:  https://kenney.nl/assets/ui-pack
 
 Para la compra:
 
-Paso Nº 1: Aumentar la posición Y del bonus
-Paso Nº 2: Crear una animación de rebote que lo regrese a su altura original
-
-En caso de NO poder comprarlo:
-
-Paso Nº 3: Aumentar la posición X del bonus
-Paso Nº 4: .
+Paso Nº 1: Tras validación de compra, bonus_x.precio *= 2
 
 """
 
@@ -54,9 +48,6 @@ bonus_3.ya_activado = False
 
 #Botones menú
 boton_jugar = Actor("play", (300, 100))
-
-
-
 
 """ #####################
    # FUNCIONES PROPIAS #
@@ -127,7 +118,7 @@ def on_mouse_down(button, pos):
                     bonus_1.potenciador += 1
                 # Restamos los puntos gastados para comprar el bonus:
                 puntuacion -= bonus_1.precio
-                # bonus_1.precio *= 2
+                bonus_1.precio *= 2
 
                 # Animamos el botón cuando pueda comprarlo
                 bonus_1.y = 105
@@ -153,7 +144,7 @@ def on_mouse_down(button, pos):
                     
                 # Restamos los puntos gastados para compar el bonus:
                 puntuacion -= bonus_2.precio
-                # bonus_2.precio *= 2
+                bonus_2.precio *= 2
 
                 # Animamos el botón cuando pueda comprarlo
                 bonus_2.y = 205
@@ -179,7 +170,7 @@ def on_mouse_down(button, pos):
                     
                 # Restamos los puntos gastados para compar el bonus:
                 puntuacion -= bonus_3.precio
-                # bonus_3.precio *= 2
+                bonus_3.precio *= 2
 
                 # Animamos el botón cuando pueda comprarlo
                 bonus_3.y = 305
