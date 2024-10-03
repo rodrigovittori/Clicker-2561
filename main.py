@@ -1,14 +1,18 @@
 #pgzero
 
 """
-M6.L4: Actividad # 3 - "Colección"
-Objetivo: Poder cambiar las skins del personaje por las que ya tengamos desbloqueadas
+M6.L4: Actividad # 4 - "Morsa"
+Objetivo:  Agregar un nuevo actor...
 
 PACK DE ASSETS: 
 ANIMALES: https://kenney.nl/assets/animal-pack-redux 
 BOTONES:  https://kenney.nl/assets/ui-pack
 
-Paso Nº 1: Agregar la lógica de click en los actores en modo coleccion
+Paso Nº 1 Lo creamos
+Paso Nº 2 Le asignamos precio y potenciador de click
+Paso Nº 3 Lo agregamos a la lista coleccion_completa
+Paso Nº 4 En on_mouse_down, en modo tienda: agregamos la lógica para comprarlo
+Paso Nº 5 En on_mouse_down, en modo coleccion: agregamos la lógica para seleccionarlo
 
 """
 
@@ -38,12 +42,9 @@ hipopotamo = Actor("hippo", (300, 200))
 hipopotamo.precio = 2500
 hipopotamo.mult = 3
 
-# + adelante: Walrus
-"""
 morsa = Actor("walrus", (480, 200))
 morsa.precio = 7000
-hipopotamo.mult = 4
-"""
+morsa.mult = 4
 
 # Botones bonus
 bonus_1 = Actor("bonus", (450, 100))
@@ -74,7 +75,7 @@ coleccion_skins = []
 coleccion_completa = [] # lista que contiene todas las skins desbloqueables por el jugador
 coleccion_completa.append(cocodrilo)
 coleccion_completa.append(hipopotamo)
-#coleccion_completa.append(morsa)
+coleccion_completa.append(morsa)
 
 """ #####################
    # FUNCIONES PROPIAS #
@@ -317,7 +318,11 @@ def on_mouse_down(button, pos):
             click_mult = hipopotamo.mult
             animal.image = hipopotamo.image
 
-        # Nota 3: Agregar Morsa
+        elif morsa.collidepoint(pos) and (puntuacion >= morsa.precio) and (morsa not in coleccion_skins):
+            puntuacion -= morsa.precio
+            coleccion_skins.append(morsa)
+            click_mult = morsa.mult
+            animal.image = morsa.image
 
     elif (button == mouse.LEFT) and (modo_actual == "coleccion"):
     
@@ -335,7 +340,9 @@ def on_mouse_down(button, pos):
             animal.image = hipopotamo.image
             click_mult = hipopotamo.mult
 
-        # Agregar morsa
+        elif (morsa.collidepoint(pos))  and (morsa in coleccion_skins):
+            animal.image = morsa.image
+            click_mult = morsa.mult
 
 ######################
 
